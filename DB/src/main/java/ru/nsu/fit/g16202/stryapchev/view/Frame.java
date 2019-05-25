@@ -4,7 +4,6 @@ import main.java.ru.nsu.fit.g16202.stryapchev.controller.Database;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.sql.*;
 import java.util.*;
 import javax.swing.table.*;
@@ -25,6 +24,7 @@ public class Frame extends JFrame {
     private JPanel lawyersPane;
     private JPanel casesPane;
     private JPanel clientsPane;
+    private JPanel clients_casesPane;
     private JPanel bankAccountsPane;
     private JPanel transactionsPane;
 
@@ -55,6 +55,7 @@ public class Frame extends JFrame {
         configureLawyersTab();
         configureCasesTab();
         configureClientsTab();
+        configureClientsCasesTab();
         configureBankAccountsTab();
         configureTransactionsTab();
 
@@ -87,6 +88,7 @@ public class Frame extends JFrame {
         lawyersPane = new JPanel();
         casesPane = new JPanel();
         clientsPane = new JPanel();
+        clients_casesPane = new JPanel();
         bankAccountsPane = new JPanel();
         transactionsPane = new JPanel();
         tabbedPane.addTab("Queries", queriesPane);
@@ -94,7 +96,8 @@ public class Frame extends JFrame {
         tabbedPane.addTab("Lawyers", lawyersPane);
         tabbedPane.addTab("Cases", casesPane);
         tabbedPane.addTab("Clients", clientsPane);
-        tabbedPane.add("Bank Accounts", bankAccountsPane);
+        tabbedPane.addTab("Clients-Cases", clients_casesPane);
+        tabbedPane.addTab("Bank Accounts", bankAccountsPane);
         tabbedPane.addTab("Transactions", transactionsPane);
         panel.add(tabbedPane);
     }
@@ -107,6 +110,7 @@ public class Frame extends JFrame {
         JPanel lawyersNameQueryPane = new JPanel();
         lawyersNameQueryPane.setMaximumSize(new Dimension(500, 25));
         lawyersNameQueryPane.setLayout(new BoxLayout(lawyersNameQueryPane, BoxLayout.X_AXIS));
+        lawyersNameQueryPane.setAlignmentX(JScrollPane.LEFT_ALIGNMENT);
         JLabel lawyersNameLabel = new JLabel("Show Lawyer's Name for specific Case by case_id:");
         JTextField lawyersNameField = new JTextField("1", 3);
         JButton lawyersNameButton = new JButton("Perform");
@@ -116,8 +120,8 @@ public class Frame extends JFrame {
         lawyersNameQueryPane.add(lawyersNameButton);
 
         JPanel casesCountForLawyersQueryPane = new JPanel();
-        //casesCountForLawyersQueryPane.setPreferredSize(new Dimension(200, 25));
         casesCountForLawyersQueryPane.setLayout(new BoxLayout(casesCountForLawyersQueryPane, BoxLayout.X_AXIS));
+        casesCountForLawyersQueryPane.setAlignmentX(JScrollPane.LEFT_ALIGNMENT);
         JLabel casesCountForLawyersLabel = new JLabel("Show How Many Cases Each Lawyer Leads:");
         JButton casesCountForLawyersButton = new JButton("Perform");
         casesCountForLawyersQueryPane.add(casesCountForLawyersLabel);
@@ -126,6 +130,7 @@ public class Frame extends JFrame {
 
         JPanel clientsInCasesQueryPane = new JPanel();
         clientsInCasesQueryPane.setLayout(new BoxLayout(clientsInCasesQueryPane, BoxLayout.X_AXIS));
+        clientsInCasesQueryPane.setAlignmentX(JScrollPane.LEFT_ALIGNMENT);
         JLabel clientsInCasesLabel = new JLabel("Show How Many Participants In Each Case:");
         JButton clientsInCasesButton = new JButton("Perform");
         clientsInCasesQueryPane.add(clientsInCasesLabel);
@@ -134,6 +139,7 @@ public class Frame extends JFrame {
 
         JPanel casesForFirmQueryPane = new JPanel();
         casesForFirmQueryPane.setLayout(new BoxLayout(casesForFirmQueryPane, BoxLayout.X_AXIS));
+        casesForFirmQueryPane.setAlignmentX(JScrollPane.LEFT_ALIGNMENT);
         JLabel casesForFirmLabel = new JLabel("Show How Many Cases Each Firm Leads:");
         JButton casesForFirmButton = new JButton("Perform");
         casesForFirmQueryPane.add(casesForFirmLabel);
@@ -142,6 +148,7 @@ public class Frame extends JFrame {
 
         JPanel seniorCitizensQueryPane = new JPanel();
         seniorCitizensQueryPane.setLayout(new BoxLayout(seniorCitizensQueryPane, BoxLayout.X_AXIS));
+        seniorCitizensQueryPane.setAlignmentX(JScrollPane.LEFT_ALIGNMENT);
         JLabel seniorCitizensLabel = new JLabel("Show How Senior Citizens Clients:");
         JButton seniorCitizensButton = new JButton("Perform");
         seniorCitizensQueryPane.add(seniorCitizensLabel);
@@ -150,6 +157,7 @@ public class Frame extends JFrame {
 
         JPanel chairmanNamesQueryPane = new JPanel();
         chairmanNamesQueryPane.setLayout(new BoxLayout(chairmanNamesQueryPane, BoxLayout.X_AXIS));
+        chairmanNamesQueryPane.setAlignmentX(JScrollPane.LEFT_ALIGNMENT);
         JLabel chairmanNamesLabel = new JLabel("Show Chairman Names For All Firms:");
         JButton chairmanNamesButton = new JButton("Perform");
         chairmanNamesQueryPane.add(chairmanNamesLabel);
@@ -158,6 +166,7 @@ public class Frame extends JFrame {
 
         JPanel balanceInBankQueryPane = new JPanel();
         balanceInBankQueryPane.setLayout(new BoxLayout(balanceInBankQueryPane, BoxLayout.X_AXIS));
+        balanceInBankQueryPane.setAlignmentX(JScrollPane.LEFT_ALIGNMENT);
         JLabel balanceInBankLabel = new JLabel("Show Bank Account Balance For All Firms:");
         JButton balanceInBankButton = new JButton("Perform");
         balanceInBankQueryPane.add(balanceInBankLabel);
@@ -166,6 +175,7 @@ public class Frame extends JFrame {
 
         JPanel unpaidCasesQueryPane = new JPanel();
         unpaidCasesQueryPane.setLayout(new BoxLayout(unpaidCasesQueryPane, BoxLayout.X_AXIS));
+        unpaidCasesQueryPane.setAlignmentX(JScrollPane.LEFT_ALIGNMENT);
         JLabel unpaidCasesLabel = new JLabel("Show All Unpaid Cases:");
         JButton unpaidCasesButton = new JButton("Perform");
         unpaidCasesQueryPane.add(unpaidCasesLabel);
@@ -174,6 +184,7 @@ public class Frame extends JFrame {
 
         JPanel paidSumForClientsQueryPane = new JPanel();
         paidSumForClientsQueryPane.setLayout(new BoxLayout(paidSumForClientsQueryPane, BoxLayout.X_AXIS));
+        paidSumForClientsQueryPane.setAlignmentX(JScrollPane.LEFT_ALIGNMENT);
         JLabel paidSumForClientsLabel = new JLabel("Show Paid Sum For Each Client:");
         JButton paidSumForClientsButton = new JButton("Perform");
         paidSumForClientsQueryPane.add(paidSumForClientsLabel);
@@ -182,12 +193,14 @@ public class Frame extends JFrame {
 
         JPanel transCountOnBankQueryPane = new JPanel();
         transCountOnBankQueryPane.setLayout(new BoxLayout(transCountOnBankQueryPane, BoxLayout.X_AXIS));
+        transCountOnBankQueryPane.setAlignmentX(JScrollPane.LEFT_ALIGNMENT);
         JLabel transCountOnBankLabel = new JLabel("Show Transactions Count Sent To Bank Account:");
         JButton transCountOnBankButton = new JButton("Perform");
         transCountOnBankQueryPane.add(transCountOnBankLabel);
         transCountOnBankQueryPane.add(Box.createRigidArea(new Dimension(10, 0)));
         transCountOnBankQueryPane.add(transCountOnBankButton);
 
+        verticalPane.add(Box.createRigidArea(new Dimension(0, 10)));
         verticalPane.add(lawyersNameQueryPane, BorderLayout.WEST);
         verticalPane.add(Box.createRigidArea(new Dimension(0, 10)));
         verticalPane.add(casesCountForLawyersQueryPane, BorderLayout.WEST);
@@ -212,6 +225,7 @@ public class Frame extends JFrame {
 
         lawyersNameButton.addActionListener(e -> {
             int id;
+            openChangeDialog("lawyers");
             try {
                 id = Integer.valueOf(lawyersNameField.getText());
                 if (id < 0)
@@ -342,6 +356,18 @@ public class Frame extends JFrame {
                 return Object.class;
             }
         };
+    }
+
+    private void executeQuery(String query) {
+        try {
+            Statement stmt = connection.createStatement();
+            stmt.executeUpdate(query);
+            stmt.close();
+        }
+        catch(Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(),
+                    "SQL error", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 
     private void configureFirmsTab() {
@@ -583,6 +609,66 @@ public class Frame extends JFrame {
         clientsPane.add(inputPane, BorderLayout.NORTH);
     }
 
+    private void configureClientsCasesTab() {
+        clients_casesPane.setLayout(new BorderLayout());
+        JPanel inputPane = new JPanel();
+        inputPane.setLayout(new BoxLayout(inputPane, BoxLayout.X_AXIS));
+        JLabel phraseLabel = new JLabel("Choose way to see table");
+        JButton showTableButton = new JButton("Show Table");
+        JLabel limitLabel = new JLabel("Limit:");
+        JLabel offsetLabel = new JLabel("Offset:");
+        JTextField limitField = new JTextField("100");
+        JTextField offsetField = new JTextField("0");
+        JButton showPagedTableButton = new JButton("Show Table with pagination");
+
+        inputPane.add(phraseLabel);
+        inputPane.add(Box.createRigidArea(new Dimension(10, 0)));
+        inputPane.add(showTableButton);
+        inputPane.add(Box.createRigidArea(new Dimension(20, 0)));
+        inputPane.add(limitLabel);
+        inputPane.add(limitField);
+        inputPane.add(Box.createRigidArea(new Dimension(10, 0)));
+        inputPane.add(offsetLabel);
+        inputPane.add(offsetField);
+        inputPane.add(Box.createRigidArea(new Dimension(10, 0)));
+        inputPane.add(showPagedTableButton);
+
+
+        final JScrollPane[] scrollPane = new JScrollPane[1];
+        showTableButton.addActionListener(e -> {
+            JTable table = new JTable(getSelectTable("clients_cases"));
+            if (clients_casesPane.getComponentCount() != 1)
+                clients_casesPane.remove(scrollPane[0]);
+            scrollPane[0] = new JScrollPane(table);
+            clients_casesPane.add(scrollPane[0], BorderLayout.CENTER);
+            clients_casesPane.revalidate();
+
+        });
+        showPagedTableButton.addActionListener(e -> {
+            int limit, offset;
+            try {
+                limit = Integer.valueOf(limitField.getText());
+                offset = Integer.valueOf(offsetField.getText());
+
+                if (limit < 0 || limit > 10000)
+                    limit = 100;
+                if (offset < 0 || offset > 10000)
+                    offset = 0;
+            } catch (NumberFormatException ex) {
+                limit = 100;
+                offset = 0;
+            }
+            JTable table = new JTable(getSelectTable("clients_cases " + "LIMIT " +  limit + " OFFSET " + offset));
+            if (clients_casesPane.getComponentCount() != 1)
+                clients_casesPane.remove(scrollPane[0]);
+            scrollPane[0] = new JScrollPane(table);
+            clients_casesPane.add(scrollPane[0], BorderLayout.CENTER);
+            clients_casesPane.revalidate();
+
+        });
+        clients_casesPane.add(inputPane, BorderLayout.NORTH);
+    }
+
     private void configureBankAccountsTab() {
         bankAccountsPane.setLayout(new BorderLayout());
         JPanel inputPane = new JPanel();
@@ -818,6 +904,81 @@ public class Frame extends JFrame {
         queryDialog.pack();
         queryDialog.setLocationRelativeTo(this);
         queryDialog.setVisible(true);
+    }
+
+    private void openChangeDialog(String table_name) {
+        JDialog changeDialog = new JDialog();
+        changeDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        changeDialog.setTitle("Insert-Update-Delete");
+        changeDialog.setModal(true);
+        changeDialog.setPreferredSize(new Dimension(600, 300));
+
+        JPanel mainPane = new JPanel();
+        mainPane.setLayout(new BorderLayout());
+        JPanel inputPane = new JPanel();
+        inputPane.setLayout(new BoxLayout(inputPane, BoxLayout.X_AXIS));
+
+        ArrayList<JLabel> labels = new ArrayList<>();
+        ArrayList<JTextField> textFields = new ArrayList<>();
+        Vector<Object> columnNames = new Vector<>();
+
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM " + table_name + " LIMIT 0");
+            ResultSetMetaData md = rs.getMetaData();
+            int columns = md.getColumnCount();
+
+            for (int i = 1; i <= columns; i++) {
+                columnNames.addElement(md.getColumnName(i));
+            }
+
+            rs.close();
+            stmt.close();
+        }
+        catch(Exception e) {
+            //System.out.println(e);
+            e.printStackTrace();
+        }
+
+        for (int i = 0; i < columnNames.size(); i++) {
+            labels.add(new JLabel(columnNames.get(i).toString() + ":"));
+            inputPane.add(labels.get(i));
+            textFields.add(new JTextField(""));
+            inputPane.add(textFields.get(i));
+        }
+
+        JButton insertButton = new JButton("Insert");
+        JButton updateButton = new JButton("Update");
+        JButton deleteButton = new JButton("Delete");
+
+        insertButton.addActionListener(e -> {
+            try {
+                String query = "INSERT INTO " + table_name + " (";
+                for (int i = 0; i < columnNames.size() - 1; i++) {
+                    query = query.concat(columnNames.get(i).toString() + ",");
+                }
+                query = query.concat(columnNames.get(columnNames.size() - 1).toString() + ") VALUES (");
+                for (int i = 0; i < textFields.size() - 1; i++) {
+                    query = query.concat("'" + textFields.get(i).getText() + "',");
+                }
+                query = query.concat("'" + textFields.get(textFields.size() - 1).getText() + "')");
+                System.out.println(query);
+                executeQuery(query);
+            }
+            catch (NumberFormatException ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        inputPane.add(insertButton);
+        inputPane.add(updateButton);
+        inputPane.add(deleteButton);
+
+        mainPane.add(inputPane, BorderLayout.NORTH);
+        changeDialog.add(mainPane);
+        changeDialog.pack();
+        changeDialog.setLocationRelativeTo(this);
+        changeDialog.setVisible(true);
     }
 
     private void fillSQL() {

@@ -252,7 +252,7 @@ public class ListTableModel extends RowTableModel<List>
 
         //  Create empty model using the column names
 
-        ArrayList<String> columnNames = new ArrayList<String>();
+        ArrayList<String> columnNames = new ArrayList<>();
 
         for (int i = 1; i <= columns; i++)
         {
