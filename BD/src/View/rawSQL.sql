@@ -1,6 +1,6 @@
 CREATE TABLE hospitals
 (
-  id   int PRIMARY KEY NOT NULL UNIQUE CHECK ( id >= 0 ),
+  id   INT PRIMARY KEY NOT NULL UNIQUE CHECK ( id >= 0 ),
   name VARCHAR(100)    NOT NULL
 );
 
@@ -10,8 +10,8 @@ VALUES (2, 'Novosibirsk hospital');
 
 CREATE TABLE doctorsandhosp
 (
-  iddoctor   int NOT NULL CHECK ( iddoctor >= 0 ),
-  idhospital int NOT NULL CHECK ( idhospital >= 0 )
+  iddoctor   INT NOT NULL CHECK ( iddoctor >= 0 ),
+  idhospital INT NOT NULL CHECK ( idhospital >= 0 )
 );
 
 INSERT INTO doctorsandhosp (iddoctor, idhospital)
@@ -22,33 +22,34 @@ VALUES (1, 1),
 
 CREATE TABLE patients
 (
-  idpatient   int PRIMARY KEY UNIQUE NOT NULL CHECK ( idpatient >= 0 ),
+  idpatient   INT PRIMARY KEY UNIQUE NOT NULL CHECK ( idpatient >= 0 ),
   namepatient VARCHAR(100)           NOT NULL,
-  age         int                    NOT NULL CHECK ( age >= 0 )
+  age         INT                    NOT NULL CHECK ( age >= 0 )
 );
 
 CREATE TABLE doctors
 (
-  iddoctor   int PRIMARY KEY UNIQUE NOT NULL CHECK ( iddoctor >= 0 ),
+  iddoctor   INT PRIMARY KEY UNIQUE NOT NULL CHECK ( iddoctor >= 0 ),
   namedoctor VARCHAR(100)           NOT NULL,
   degree     VARCHAR(50)            NOT NULL
 );
+
 CREATE TABLE hospitals
 (
-  idhospital   int PRIMARY KEY UNIQUE NOT NULL CHECK ( idhospital >= 0 ),
+  idhospital   INT PRIMARY KEY UNIQUE NOT NULL CHECK ( idhospital >= 0 ),
   namehospital VARCHAR(100)           NOT NULL
 );
 
 CREATE TABLE diagnosis
 (
-  iddiagnosis   int PRIMARY KEY UNIQUE NOT NULL CHECK ( iddiagnosis >= 0 ),
+  iddiagnosis   INT PRIMARY KEY UNIQUE NOT NULL CHECK ( iddiagnosis >= 0 ),
   namediagnosis VARCHAR(100)           NOT NULL
 );
 
 CREATE TABLE docthosp
 (
-  iddoctor   int NOT NULL CHECK ( iddoctor >= 0 ),
-  idhospital int NOT NULL CHECK ( idhospital >= 0 ),
+  iddoctor   INT NOT NULL CHECK ( iddoctor >= 0 ),
+  idhospital INT NOT NULL CHECK ( idhospital >= 0 ),
   PRIMARY KEY (iddoctor, idhospital),
   FOREIGN KEY (iddoctor) REFERENCES doctors (iddoctor),
   FOREIGN KEY (idhospital) REFERENCES hospitals (idhospital)
@@ -56,8 +57,8 @@ CREATE TABLE docthosp
 
 CREATE TABLE pathosp
 (
-  idpatient  int NOT NULL CHECK ( idpatient >= 0 ),
-  idhospital int NOT NULL CHECK ( idhospital >= 0 ),
+  idpatient  INT NOT NULL CHECK ( idpatient >= 0 ),
+  idhospital INT NOT NULL CHECK ( idhospital >= 0 ),
   PRIMARY KEY (idpatient, idhospital),
   FOREIGN KEY (idpatient) REFERENCES patients (idpatient),
   FOREIGN KEY (idhospital) REFERENCES hospitals (idhospital)
@@ -65,11 +66,11 @@ CREATE TABLE pathosp
 
 CREATE TABLE notes
 (
-  idnote      int PRIMARY KEY UNIQUE NOT NULL CHECK ( idnote >= 0 ),
-  idpatient   int                    NOT NULL CHECK ( idpatient >= 0 ),
-  iddoctor    int                    NOT NULL CHECK ( iddoctor >= 0 ),
-  idhospital  int                    NOT NULL CHECK ( idhospital >= 0 ),
-  iddiagnosis int                    NOT NULL CHECK ( iddiagnosis >= 0 ),
+  idnote      INT PRIMARY KEY UNIQUE NOT NULL CHECK ( idnote >= 0 ),
+  idpatient   INT                    NOT NULL CHECK ( idpatient >= 0 ),
+  iddoctor    INT                    NOT NULL CHECK ( iddoctor >= 0 ),
+  idhospital  INT                    NOT NULL CHECK ( idhospital >= 0 ),
+  iddiagnosis INT                    NOT NULL CHECK ( iddiagnosis >= 0 ),
   text        VARCHAR(500)           NOT NULL,
   FOREIGN KEY (idpatient) REFERENCES patients (idpatient),
   FOREIGN KEY (idhospital) REFERENCES hospitals (idhospital),
@@ -95,24 +96,25 @@ VALUES (1, 'Irish Terrier', 'PhD'),
        (5, 'Siberian Husky', 'Master'),
        (6, 'Pelmbroke Welsh Corgi', 'PhD');
 
-insert into doctors (iddoctor, namedoctor, degree)
+INSERT INTO doctors (iddoctor, namedoctor, degree)
 VALUES (7, 'Welsh Springer Spaniel', 'PhD');
-insert into docthosp (iddoctor, idhospital)
+
+insert INTO docthosp (iddoctor, idhospital)
 VALUES (7, 1);
 
-INSERT into hospitals (idhospital, namehospital)
+INSERT INTO hospitals (idhospital, namehospital)
 VALUES (1, 'Chambord Castle (Loire Valley, France)'),
        (2, 'Dunrobin Castle (Scotland)'),
        (3, 'Alcazar of Segovia (Spain)');
 
-INSERT into diagnosis (iddiagnosis, namediagnosis)
+INSERT INTO diagnosis (iddiagnosis, namediagnosis)
 VALUES (1, 'Good Coat'),
        (2, 'Nice Eyes'),
        (3, 'Big Ears'),
        (4, 'Strong Paws');
 
-INSERT into docthosp (iddoctor, idhospital)
-values (1, 1),
+INSERT INTO docthosp (iddoctor, idhospital)
+VALUES (1, 1),
        (1, 2),
        (2, 2),
        (2, 3),
@@ -123,12 +125,11 @@ values (1, 1),
        (5, 2),
        (5, 3),
        (6, 3),
-       (6, 1);
+       (6, 1),
+       (7, 1);
 
-insert into docthosp (iddoctor, idhospital)
-values (7, 1);
 
-INSERT into pathosp (idpatient, idhospital)
+INSERT INTO pathosp (idpatient, idhospital)
 values (1, 1),
        (2, 2),
        (3, 3),
@@ -141,7 +142,7 @@ values (1, 1),
        (7, 1),
        (7, 2);
 
-INSERT into notes (idnote, idpatient, iddoctor, idhospital, iddiagnosis, text)
+INSERT INTO notes (idnote, idpatient, iddoctor, idhospital, iddiagnosis, text)
 VALUES (1, 1, 1, 1, 1, 'BOY, LIVES IN SWEDEN'),
        (2, 1, 4, 1, 2, 'GOOD'),
        (3, 2, 2, 2, 3, 'GIRL, LIVES IN RUSSIA'),
@@ -238,6 +239,10 @@ INSERT INTO notes (idnote, idpatient, iddoctor, idhospital, iddiagnosis, text)
 VALUES ((SELECT count(*) FROM notes) + 1, (SELECT count(*) FROM patients), 1, 1, 1, 'THE BEST');
 COMMIT;
 
+SELECT * from patients;
+
+SELECT *
+from doctors;
 
 CREATE SEQUENCE
   doc_id start with 9 increment by 1;
@@ -280,21 +285,22 @@ WHERE diagnosis.iddiagnosis = 1;
 
 CREATE TABLE insurances
 (
-  idinsurance   int PRIMARY KEY UNIQUE NOT NULL CHECK ( idinsurance >= 0 ),
+  idinsurance   INT PRIMARY KEY UNIQUE NOT NULL CHECK ( idinsurance >= 0 ),
   nameinsurance VARCHAR(100)           NOT NULL
 );
-INSERT into insurances (idinsurance, nameinsurance) VALUES
-(1, 'Insurance Company Number 1'), (2, 'Insurance Company Number 2');
+INSERT INTO insurances (idinsurance, nameinsurance) VALUES
+(1, 'Insurance Company Number 1'),
+(2, 'Insurance Company Number 2');
 
 CREATE TABLE patinsur
 (
-  idpatient  int NOT NULL CHECK ( idpatient >= 0 ),
-  idinsurance int NOT NULL CHECK ( idinsurance >= 0 ),
+  idpatient  INT NOT NULL CHECK ( idpatient >= 0 ),
+  idinsurance INT NOT NULL CHECK ( idinsurance >= 0 ),
   PRIMARY KEY (idpatient, idinsurance),
   FOREIGN KEY (idpatient) REFERENCES patients (idpatient),
   FOREIGN KEY (idinsurance) REFERENCES insurances (idinsurance)
 );
-INSERT into patinsur (idpatient, idinsurance) values
+INSERT INTO patinsur (idpatient, idinsurance) values
 (1, 1), (2, 2), (3, 1), (4, 2), (5, 2), (6, 2);
 
 
@@ -302,18 +308,6 @@ INSERT into patinsur (idpatient, idinsurance) values
 
 
 --------------------------------------------------------------------------------
-SELECT * from patients;
-SELECT * from doctors;
-SELECT * from diagnosis;
-SELECT * from notes;
-SELECT * from insurances;
-SELECT * from hospitals;
-SELECT * from docthosp;
-SELECT * from pathosp;
-SELECT * from patinsur;
-
-
-
 --диагнозы по госп.
 SELECT namehospital, namediagnosis
 FROM (SELECT *
@@ -402,12 +396,167 @@ END;
 
 --1 ур влож, секвинсы, внеш кл
 
-DROP TABLE doctors;
-DROP TABLE diagnosis;
+SELECT * from patients;
+SELECT * from doctors;
+SELECT * from diagnosis;
+SELECT * from notes;
+SELECT * from insurances;
+SELECT * from hospitals;
+SELECT * from docthosp;
+SELECT * from pathosp;
+
+
+DROP SEQUENCE patientsSQ;
+DROP SEQUENCE hospitalsSQ;
+
 DROP TABLE notes;
-DROP TABLE hospitals;
 DROP TABLE docthosp;
 DROP TABLE pathosp;
-DROP TABLE patinsur;
 DROP TABLE patients;
+DROP TABLE doctors;
+DROP TABLE diagnosis;
+DROP TABLE hospitals;
 DROP TABLE insurances;
+
+-----------------------------------------
+CREATE SEQUENCE patientsSQ START 1;
+CREATE SEQUENCE hospitalsSQ START 1;
+
+CREATE TABLE patients
+(
+  idpatient   INT PRIMARY KEY UNIQUE NOT NULL CHECK ( idpatient >= 0 ),
+  namepatient VARCHAR(100)           NOT NULL,
+  age         INT                    NOT NULL CHECK ( age >= 0 ),
+  insuranceid INT                    NOT NULL CHECK ( insuranceid >= 0 )
+);
+
+INSERT INTO patients (idpatient, namepatient, age, insuranceid)
+VALUES (nextval('patientsSQ'), 'Whippet', 0, 2),
+       (nextval('patientsSQ'), 'Doberman Pinscher', 1, 1),
+       (nextval('patientsSQ'), 'Finnish Spitz', 2, 1),
+       (nextval('patientsSQ'), 'Irish Wolfhound', 3, 1),
+       (nextval('patientsSQ'), 'Tibetan Mastiff', 4, 2),
+       (nextval('patientsSQ'), 'Samoyed', 5, 2),
+       (nextval('patientsSQ'), 'German Schepherd', 6, 2);
+
+
+CREATE TABLE hospitals
+(
+  idhospital   INT PRIMARY KEY UNIQUE NOT NULL CHECK ( idhospital >= 0 ),
+  namehospital VARCHAR(100)           NOT NULL
+);
+
+INSERT INTO hospitals (idhospital, namehospital)
+VALUES (nextval('hospitalsSQ'), 'Chambord Castle (France)'),
+       (nextval('hospitalsSQ'), 'Dunrobin Castle (Scotland)'),
+       (nextval('hospitalsSQ'), 'Alcazar of Segovia (Spain)');
+
+CREATE TABLE doctors
+(
+  iddoctor   INT PRIMARY KEY UNIQUE NOT NULL CHECK ( iddoctor >= 0 ),
+  namedoctor VARCHAR(100)           NOT NULL,
+  degree     VARCHAR(50)            NOT NULL,
+  agedoctor        VARCHAR(50)            NOT NULL
+);
+
+INSERT INTO doctors (iddoctor, namedoctor, degree, agedoctor)
+VALUES (1, 'Irish Terrier', 'PhD', 40),
+       (2, 'Komondor', 'Master', 50),
+       (3, 'Labrador Retriever', 'PhD', 60),
+       (4, 'Mastiff', 'Bachelor', 45),
+       (5, 'Siberian Husky', 'Master', 35),
+       (6, 'Pelmbroke Welsh Corgi', 'PhD', 55),
+       (7, 'Welsh Springer Spaniel', 'PhD', 65);
+
+CREATE TABLE diagnosis
+(
+  iddiagnosis   INT PRIMARY KEY UNIQUE NOT NULL CHECK ( iddiagnosis >= 0 ),
+  namediagnosis VARCHAR(100)           NOT NULL
+);
+
+INSERT INTO diagnosis (iddiagnosis, namediagnosis)
+VALUES (1, 'Good Coat'),
+       (2, 'Nice Eyes'),
+       (3, 'Big Ears'),
+       (4, 'Strong Paws');
+
+CREATE TABLE notes
+(
+  idnote      INT PRIMARY KEY UNIQUE NOT NULL CHECK ( idnote >= 0 ),
+  idpatient   INT                    NOT NULL CHECK ( idpatient >= 0 ),
+  iddoctor    INT                    NOT NULL CHECK ( iddoctor >= 0 ),
+  idhospital  INT                    NOT NULL CHECK ( idhospital >= 0 ),
+  iddiagnosis INT                    NOT NULL CHECK ( iddiagnosis >= 0 ),
+  text        VARCHAR(500)           NOT NULL,
+  FOREIGN KEY (idpatient) REFERENCES patients (idpatient),
+  FOREIGN KEY (idhospital) REFERENCES hospitals (idhospital),
+  FOREIGN KEY (iddoctor) REFERENCES doctors (iddoctor),
+  FOREIGN KEY (iddiagnosis) REFERENCES diagnosis (iddiagnosis)
+);
+
+INSERT INTO notes (idnote, idpatient, iddoctor, idhospital, iddiagnosis, text)
+VALUES (1, 1, 1, 1, 1, 'BOY, LIVES IN SWEDEN'),
+       (2, 1, 4, 1, 2, 'GOOD'),
+       (3, 2, 2, 2, 3, 'GIRL, LIVES IN RUSSIA'),
+       (4, 3, 5, 3, 4, 'BOY, LIVES IN SWEDEN'),
+       (5, 4, 3, 3, 1, 'BOY, LIVES IN ITALY'),
+       (6, 5, 5, 2, 1, 'GIRL, LIVES IN UK'),
+       (7, 6, 6, 1, 2, 'BOY, LIVES IN FINLAND'),
+       (8, 7, 7, 1, 2, 'GIRL, LIVES IN FRANCE');
+
+CREATE TABLE insurances
+(
+  idinsurance   INT PRIMARY KEY UNIQUE NOT NULL CHECK ( idinsurance >= 0 ),
+  nameinsurance VARCHAR(100)           NOT NULL
+);
+
+
+INSERT INTO insurances (idinsurance, nameinsurance) VALUES
+(1, 'Insurance Company Number 1'),
+(2, 'Insurance Company Number 2');
+
+CREATE TABLE docthosp
+(
+  iddoctor   INT NOT NULL CHECK ( iddoctor >= 0 ),
+  idhospital INT NOT NULL CHECK ( idhospital >= 0 ),
+  PRIMARY KEY (iddoctor, idhospital),
+  FOREIGN KEY (iddoctor) REFERENCES doctors (iddoctor),
+  FOREIGN KEY (idhospital) REFERENCES hospitals (idhospital)
+);
+
+INSERT INTO docthosp (iddoctor, idhospital)
+VALUES (1, 1),
+       (1, 2),
+       (2, 2),
+       (2, 3),
+       (3, 3),
+       (3, 1),
+       (4, 1),
+       (4, 2),
+       (5, 2),
+       (5, 3),
+       (6, 3),
+       (6, 1),
+       (7, 1);
+
+CREATE TABLE pathosp
+(
+  idpatient  INT NOT NULL CHECK ( idpatient >= 0 ),
+  idhospital INT NOT NULL CHECK ( idhospital >= 0 ),
+  PRIMARY KEY (idpatient, idhospital),
+  FOREIGN KEY (idpatient) REFERENCES patients (idpatient),
+  FOREIGN KEY (idhospital) REFERENCES hospitals (idhospital)
+);
+
+INSERT INTO pathosp (idpatient, idhospital)
+values (1, 1),
+       (2, 2),
+       (3, 3),
+       (3, 1),
+       (4, 1),
+       (4, 2),
+       (4, 3),
+       (5, 2),
+       (6, 2),
+       (7, 1),
+       (7, 2);

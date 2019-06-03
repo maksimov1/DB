@@ -1,7 +1,6 @@
 package View;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,8 +16,6 @@ public class Gui {
     private JPanel rightpanel;
 
     private JPanel tablePanel;
-    private JPanel insertPane;
-    private JPanel updatePane;
     private JPanel perfectInputPane;
     private JPanel perfectOutputPane;
 
@@ -41,6 +38,14 @@ public class Gui {
     private JPanel hospitalsPanel;
     private JPanel queriesPanel;
 
+    private JPanel patientsInputPanel;
+    private JPanel doctorsInputPanel;
+    private JPanel diagnosesInputPanel;
+    private JPanel notesInputPanel;
+    private JPanel insurancesInputPanel;
+    private JPanel hospitalsInputPanel;
+    private JPanel queriesInputPanel;
+
     private JButton patb, docb, diagnb, notb, insurb, hospb, queriesb;
     private boolean updated = false;
     private String hospital_name;
@@ -54,7 +59,6 @@ public class Gui {
     }
 
     private void initPanels(){
-
         mainframe = new JFrame();
         mainframe.setLayout(new BorderLayout());
         mainframe.setBackground(Color.WHITE);
@@ -94,7 +98,6 @@ public class Gui {
         mainframe.add(rightpanel, BorderLayout.EAST);
 
         showPatients();
-        //mainframe.setLocationRelativeTo(null);
         mainframe.pack();
     }
     private void configureButtonPanel() {
@@ -148,6 +151,52 @@ public class Gui {
     }
 
     private void configureInputPanel() {
+        patientsInputPanel = new JPanel();
+        doctorsInputPanel = new JPanel();
+        diagnosesInputPanel = new JPanel();
+        notesInputPanel = new JPanel();
+        insurancesInputPanel = new JPanel();
+        insurancesInputPanel.setPreferredSize(new Dimension(200, buttonheight));
+        hospitalsInputPanel = new JPanel();
+        queriesInputPanel = new JPanel();
+
+        JButton patientsInsertButton = new JButton("Insert");
+        JButton doctorsInsertButton = new JButton("Insert");
+        JButton diagnosesInsertButton = new JButton("Insert");
+        JButton notesInsertButton = new JButton("Insert");
+        JButton insurancesInsertButton = new JButton("Insert");
+        JButton hospitalsInsertButton = new JButton("Insert");
+
+        JButton insurancesBatchInsert = new JButton("Batch Insert");
+        JButton insurancesBatchDelete = new JButton("Batch Delete");
+
+        JButton updatePatientsButton = new JButton("Update");
+        JButton updateDoctorsButton = new JButton("Update");
+
+        patientsInputPanel.add(patientsInsertButton);
+        doctorsInputPanel.add(doctorsInsertButton);
+        diagnosesInputPanel.add(diagnosesInsertButton);
+        notesInputPanel.add(notesInsertButton);
+        insurancesInputPanel.add(insurancesInsertButton);
+        hospitalsInputPanel.add(hospitalsInsertButton);
+
+        patientsInputPanel.add(updatePatientsButton);
+        doctorsInputPanel.add(updateDoctorsButton);
+
+        insurancesInputPanel.add(insurancesBatchInsert);
+        insurancesInputPanel.add(insurancesBatchDelete);
+
+        patientsInsertButton.addActionListener(e -> openInsertDialog("patients"));
+        doctorsInsertButton.addActionListener(e -> openInsertDialog("doctors"));
+        diagnosesInsertButton.addActionListener(e -> openInsertDialog("diagnosis"));
+        notesInsertButton.addActionListener(e -> openInsertDialog("notes"));
+        insurancesInsertButton.addActionListener(e -> openInsertDialog("insurances"));
+        hospitalsInsertButton.addActionListener(e -> openInsertDialog("hospitals"));
+        insurancesBatchInsert.addActionListener(e -> insurancesBatchInsert());
+        insurancesBatchDelete.addActionListener(e -> insurancesBatchDelete());
+        updatePatientsButton.addActionListener(e -> openUpdateDialog("patients", "idpatient", "age"));
+        updateDoctorsButton.addActionListener(e -> openUpdateDialog("doctors", "iddoctor", "agedoctor"));
+
         inputpanel = new JPanel();
         inputheight = frameh - buttonheight;
         inputpanel.setPreferredSize(new Dimension(leftfw, inputheight));
@@ -155,12 +204,20 @@ public class Gui {
     }
 
     private void showPatients() {
+        inputpanel.removeAll();
+        inputpanel.add(patientsInputPanel);
+        inputpanel.revalidate();
+        inputpanel.repaint();
         tablePanel.removeAll();
         tablePanel.add(patientsPanel);
         tablePanel.revalidate();
     }
 
     private void showDoctors() {
+        inputpanel.removeAll();
+        inputpanel.add(doctorsInputPanel);
+        inputpanel.revalidate();
+        inputpanel.repaint();
         tablePanel.removeAll();
         tablePanel.add(doctorsPanel);
         tablePanel.repaint();
@@ -168,24 +225,40 @@ public class Gui {
     }
 
     private void showDiagnoses() {
+        inputpanel.removeAll();
+        inputpanel.add(diagnosesInputPanel);
+        inputpanel.revalidate();
+        inputpanel.repaint();
         tablePanel.removeAll();
         tablePanel.add(diagnosesPanel);
         tablePanel.revalidate();
     }
 
     private void showNotes() {
+        inputpanel.removeAll();
+        inputpanel.add(notesInputPanel);
+        inputpanel.revalidate();
+        inputpanel.repaint();
         tablePanel.removeAll();
         tablePanel.add(notesPanel);
         tablePanel.revalidate();
     }
 
     private void showInsurances() {
+        inputpanel.removeAll();
+        inputpanel.add(insurancesInputPanel);
+        inputpanel.revalidate();
+        inputpanel.repaint();
         tablePanel.removeAll();
         tablePanel.add(insurancesPanel);
         tablePanel.revalidate();
     }
 
     private void showHospitals() {
+        inputpanel.removeAll();
+        inputpanel.add(hospitalsInputPanel);
+        inputpanel.revalidate();
+        inputpanel.repaint();
         tablePanel.removeAll();
         tablePanel.add(hospitalsPanel);
         tablePanel.revalidate();
@@ -195,6 +268,7 @@ public class Gui {
         inputpanel.removeAll();
         inputpanel.add(queriesPanel);
         inputpanel.revalidate();
+        inputpanel.repaint();
     }
 
     private JPanel configureTablePanel(String table_name) {
@@ -260,13 +334,9 @@ public class Gui {
     private void configureTabs() {
         final JTabbedPane tabbedPane = new JTabbedPane();
         tablePanel = new JPanel();
-        insertPane = new JPanel();
-        updatePane = new JPanel();
         perfectInputPane = new JPanel();
         perfectOutputPane = new JPanel();
         tabbedPane.addTab("Table", tablePanel);
-        tabbedPane.addTab("Insert", insertPane);
-        tabbedPane.addTab("Update", updatePane);
         tabbedPane.addTab("Perfect Input", perfectInputPane);
         tabbedPane.addTab("Perfect Output", perfectOutputPane);
         rightpanel.add(tabbedPane);
@@ -766,39 +836,150 @@ public class Gui {
         perfectOutputPane.add(sfPane, BorderLayout.AFTER_LAST_LINE);
     }
 
-    /*private void configureInsertTab() {
-        JPanel inputPane = new JPanel();
-        JButton firmsButton = new JButton("Firms");
-        JButton lawyersButton = new JButton("Lawyers");
-        JButton casesButton = new JButton("Cases");
-        JButton clientsButton = new JButton("Clients");
-        JButton clients_casesButton = new JButton("Clients-Cases");
-        JButton bankAccountsButton = new JButton("Bank Accounts");
-        JButton transactionsButton = new JButton("Transactions");
-        JButton batchInsertTransactionsButton = new JButton("Batch Insert Transactions");
+    private void insurancesBatchInsert() {
+        try {
+            connection.setAutoCommit(false);
+            String insert_query = "INSERT INTO insurances (idinsurance, nameinsurance) VALUES (?, ?)";
+            PreparedStatement pst = connection.prepareStatement(insert_query);
+            pst.setInt(1, 1);
+            pst.setString(2, "Insurance Company Number 1");
+            pst.addBatch();
 
-        firmsButton.addActionListener(e -> openInsertDialog("firms"));
-        lawyersButton.addActionListener(e -> openInsertDialog("lawyers"));
-        casesButton.addActionListener(e -> openInsertDialog("cases"));
-        clientsButton.addActionListener(e -> openInsertDialog("clients"));
-        clients_casesButton.addActionListener(e -> openInsertDialog("clients_cases"));
-        bankAccountsButton.addActionListener(e -> openInsertDialog("bank_accounts"));
-        transactionsButton.addActionListener(e -> openInsertDialog("transactions"));
-        batchInsertTransactionsButton.addActionListener(e -> transactionsBatchInsert());
+            pst.setInt(1, 2);
+            pst.setString(2, "Insurance Company Number 2");
+            pst.addBatch();
 
-        inputPane.add(firmsButton);
-        inputPane.add(lawyersButton);
-        inputPane.add(casesButton);
-        inputPane.add(clientsButton);
-        inputPane.add(clients_casesButton);
-        inputPane.add(bankAccountsButton);
-        inputPane.add(transactionsButton);
-        inputPane.add(batchInsertTransactionsButton);
+            pst.setInt(1, 3);
+            pst.setString(2, "Insurance Company Number 3");
+            pst.addBatch();
 
-        insertPane.add(Box.createRigidArea(new Dimension(100, 150)));
-        insertPane.add(inputPane);
+            pst.executeBatch();
+            connection.commit();
+        }
+        catch (SQLException ex) {
+            JOptionPane.showMessageDialog(mainframe, ex.getMessage(),
+                    "SQL error", JOptionPane.INFORMATION_MESSAGE);
+            try {
+                connection.rollback();
+            } catch (SQLException exc) {
+                exc.printStackTrace();
+                System.out.println("Rollback Error");
+            }
+        }
+        finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
+    private void insurancesBatchDelete() {
+        try {
+            connection.setAutoCommit(false);
+            String insert_query = "DELETE FROM insurances WHERE idinsurance = ?";
+            PreparedStatement pst = connection.prepareStatement(insert_query);
+            pst.setInt(1, 1);
+            pst.addBatch();
+
+            pst.setInt(1, 2);
+            pst.addBatch();
+
+            pst.setInt(1, 3);
+            pst.addBatch();
+
+            pst.executeBatch();
+            connection.commit();
+        }
+        catch (SQLException ex) {
+            JOptionPane.showMessageDialog(mainframe, ex.getMessage(),
+                    "SQL error", JOptionPane.INFORMATION_MESSAGE);
+            try {
+                connection.rollback();
+            } catch (SQLException exc) {
+                exc.printStackTrace();
+                System.out.println("Rollback Error");
+            }
+        }
+        finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private DefaultComboBoxModel buildComboBoxModelUpdate(String table_name, String id_field) {
+        DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
+        String SQL = "SELECT " + id_field + " FROM " + table_name;
+        try {
+            PreparedStatement ps = connection.prepareStatement(SQL);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                comboBoxModel.addElement(new DemoModelItem(rs.getString(id_field)));
+            }
+            rs.close();
+            ps.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return comboBoxModel;
+    }
+
+    private void openUpdateDialog(String table_name, String id_str, String update_str) {
+        JDialog updateDialog = new JDialog();
+        updateDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        updateDialog.setTitle("Update " + table_name);
+        updateDialog.setModal(true);
+        updateDialog.setPreferredSize(new Dimension(400, 150));
+
+        JPanel mainPane = new JPanel();
+        mainPane.setLayout(new BorderLayout());
+        JPanel inputPane = new JPanel();
+        inputPane.setLayout(new BoxLayout(inputPane, BoxLayout.X_AXIS));
+
+        JLabel idLabel = new JLabel(id_str + ":");
+        JComboBox comboBox = new JComboBox(buildComboBoxModelUpdate(table_name, id_str));
+        comboBox.setPreferredSize(new Dimension(88, 30));
+        ((JLabel) comboBox.getRenderer()).setHorizontalAlignment(JLabel.CENTER);
+        JLabel changeLabel = new JLabel(update_str + ":");
+        JTextField changeField = new JTextField();
+        inputPane.add(idLabel);
+        inputPane.add(comboBox);
+        inputPane.add(Box.createRigidArea(new Dimension(20, 0)));
+        inputPane.add(changeLabel);
+        inputPane.add(changeField);
+
+        JButton updateButton = new JButton("Update");
+
+        updateButton.addActionListener(e -> {
+            String updateQuery = "UPDATE " + table_name + " SET " + update_str + " = ? " + "WHERE " + id_str + " = ?";
+            try {
+                PreparedStatement ps = connection.prepareStatement(updateQuery);
+                ps.setInt(1, Integer.parseInt(changeField.getText()));
+                ps.setInt(2, Integer.valueOf(comboBox.getSelectedItem().toString()));
+                System.out.println(ps);
+                ps.executeUpdate();
+                updateDialog.dispose();
+            }
+            catch (SQLException exe) {
+                JOptionPane.showMessageDialog(mainframe, exe.getMessage(),
+                        "SQL error", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+
+        inputPane.add(updateButton);
+
+        mainPane.add(inputPane, BorderLayout.NORTH);
+        updateDialog.add(mainPane);
+        updateDialog.pack();
+        updateDialog.setLocationRelativeTo(mainframe);
+        updateDialog.setVisible(true);
+    }
+
+    /*
     private void configureUpdateTab() {
         JPanel inputPane = new JPanel();
         JButton firmsButton = new JButton("Firms");
@@ -828,5 +1009,88 @@ public class Gui {
         updatePane.add(Box.createRigidArea(new Dimension(100, 150)));
         updatePane.add(inputPane);
     }*/
+
+    private void openInsertDialog(String table_name) {
+        JDialog insertDialog = new JDialog();
+        insertDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        insertDialog.setTitle("Insert");
+        insertDialog.setModal(true);
+        insertDialog.setPreferredSize(new Dimension(800, 200));
+
+        JPanel mainPane = new JPanel();
+        mainPane.setLayout(new BorderLayout());
+        JPanel inputPane = new JPanel();
+        inputPane.setLayout(new BoxLayout(inputPane, BoxLayout.X_AXIS));
+
+        ArrayList<JLabel> labels = new ArrayList<>();
+        ArrayList<JTextField> textFields = new ArrayList<>();
+        Vector<Object> columnNames = new Vector<>();
+
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM " + table_name + " LIMIT 0");
+            ResultSetMetaData md = rs.getMetaData();
+            int columns = md.getColumnCount();
+
+            for (int i = 1; i <= columns; i++) {
+                columnNames.addElement(md.getColumnName(i));
+            }
+
+            rs.close();
+            stmt.close();
+        }
+        catch(Exception e) {
+            //System.out.println(e);
+            e.printStackTrace();
+        }
+
+        for (int i = 0; i < columnNames.size(); i++) {
+            labels.add(new JLabel(columnNames.get(i).toString() + ":"));
+            inputPane.add(labels.get(i));
+            textFields.add(new JTextField(""));
+            inputPane.add(textFields.get(i));
+        }
+
+        JButton insertButton = new JButton("Insert");
+
+        insertButton.addActionListener(e -> {
+            try {
+                String query = "INSERT INTO " + table_name + " (";
+                for (int i = 0; i < columnNames.size() - 1; i++) {
+                    query = query.concat(columnNames.get(i).toString() + ",");
+                }
+                query = query.concat(columnNames.get(columnNames.size() - 1).toString() + ") VALUES (");
+                for (int i = 0; i < textFields.size() - 1; i++) {
+                    query = query.concat("'" + textFields.get(i).getText() + "',");
+                }
+                query = query.concat("'" + textFields.get(textFields.size() - 1).getText() + "')");
+
+                //if (executeQuery(query))
+                try {
+                    Statement statement = connection.createStatement();
+                    statement.executeUpdate(query);
+                    statement.close();
+                }
+                catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(mainframe, ex.getMessage(),
+                            "SQL error", JOptionPane.INFORMATION_MESSAGE);
+                }
+                insertDialog.dispose();
+            }
+            catch (NumberFormatException ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        inputPane.add(insertButton);
+        //inputPane.add(updateButton);
+        //inputPane.add(deleteButton);
+
+        mainPane.add(inputPane, BorderLayout.NORTH);
+        insertDialog.add(mainPane);
+        insertDialog.pack();
+        insertDialog.setLocationRelativeTo(mainframe);
+        insertDialog.setVisible(true);
+    }
 
 }
