@@ -7,7 +7,7 @@ public class Main {
 
     public static void main(String[] args) throws SQLException {
         DataBaseHandler handler = DataBaseHandler.getInstance();
-        handler.printAllNotes();
+        //handler.printAllNotes();
         Gui gui = new Gui(handler);
         /*gui.changeTable(handler.getQueryTable("SELECT idnote, namepatient, age, namedoctor, degree, namehospital, namediagnosis, text FROM (SELECT * FROM (SELECT * FROM (SELECT * FROM notes LEFT JOIN hospitals ON notes.idhospital = hospitals.idhospital)\n" +
                 "AS notesh LEFT JOIN patiens ON notesh.idpatient = patiens.idpatient)\n" +

@@ -290,4 +290,8 @@ public class DataBaseHandler {
         return instance;
     }
 
+    public Connection getConnection() {
+        return connection;
+    }
+
 }
